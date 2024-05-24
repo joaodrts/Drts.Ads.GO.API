@@ -10,14 +10,14 @@ func Insert(ad Ad) (id int64, err error) {
 
 	defer conn.Close()
 
-	sql := `INSERT INTO ads (title, description, datestart, dateend, status, link) VALUES ()`
+	sql := `INSERT INTO ads (title, description, datestart, dateend, status, link) VALUES ($1, $2, $3, $4, $5, $6)`
 
 	err = conn.QueryRow(sql, ad.Title, ad.Description, ad.DateStart, ad.DateEnd, ad.Status, ad.Link).Scan(&id)
 
 	return
 }
 
-func GetById(id int64) (ad Ad, err error) {
+func GetById(id string) (ad Ad, err error) {
 	conn, err := data.OpenConnection()
 	if err != nil {
 		return
@@ -25,7 +25,7 @@ func GetById(id int64) (ad Ad, err error) {
 
 	defer conn.Close()
 
-	row := conn.QueryRow(`SELECT * FROM ads WHERE id=$1`, id)
+	row := conn.QueryRow(`SELECT * FROM ads WHERE status=0 and id=$1`, id)
 
 	err = row.Scan(&ad.ID, &ad.Title, &ad.Description, &ad.DateStart, &ad.DateEnd, &ad.Status, &ad.Link)
 
@@ -61,7 +61,7 @@ func Get(status string) (ads []Ad, err error) {
 	return
 }
 
-func Update(id int64, ad Ad) (int64, error) {
+func Update(id string, ad Ad) (idresp int64, err error) {
 
 	conn, err := data.OpenConnection()
 	if err != nil {
@@ -80,7 +80,7 @@ func Update(id int64, ad Ad) (int64, error) {
 	return sql.RowsAffected()
 }
 
-func Delete(id int64) (int64, error) {
+func Delete(id string) (int64, error) {
 
 	conn, err := data.OpenConnection()
 	if err != nil {
