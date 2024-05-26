@@ -25,7 +25,7 @@ func GetById(id string) (ad Ad, err error) {
 
 	defer conn.Close()
 
-	row := conn.QueryRow(`SELECT * FROM ads WHERE status=0 and id=$1`, id)
+	row := conn.QueryRow(`SELECT * FROM ads WHERE datestart >= current_date and dateend >= current_date and status=0 and id=$1`, id)
 
 	err = row.Scan(&ad.ID, &ad.Title, &ad.Description, &ad.DateStart, &ad.DateEnd, &ad.Status, &ad.Link)
 
@@ -40,7 +40,7 @@ func Get(status string) (ads []Ad, err error) {
 
 	defer conn.Close()
 
-	rows, err := conn.Query(`SELECT * FROM ads WHERE status=$1`, status)
+	rows, err := conn.Query(`SELECT * FROM ads WHERE datestart >= current_date and dateend >= current_date and status=$1`, status)
 
 	if err != nil {
 		return
