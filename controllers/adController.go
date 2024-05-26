@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +10,13 @@ import (
 
 func Create(c *gin.Context) {
 
+	fmt.Printf("chamou o criate, SERVER")
+
 	var newAd entities.Ad
+
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
 	if err := c.BindJSON(&newAd); err != nil {
 		return
@@ -26,6 +33,10 @@ func Create(c *gin.Context) {
 
 func Get(c *gin.Context) {
 
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
 	listAds, err := entities.Get("0")
 
 	if err != nil {
@@ -36,6 +47,10 @@ func Get(c *gin.Context) {
 }
 
 func GetById(c *gin.Context) {
+
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
 	id := c.Param("id")
 
@@ -55,6 +70,10 @@ func GetById(c *gin.Context) {
 
 func Update(c *gin.Context) {
 
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
 	id := c.Param("id")
 
 	var newAd entities.Ad
@@ -73,6 +92,10 @@ func Update(c *gin.Context) {
 }
 
 func Delete(c *gin.Context) {
+
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
 	id := c.Param("id")
 
