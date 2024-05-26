@@ -9,6 +9,8 @@ import (
 )
 
 func OpenConnection() (*sql.DB, error) {
+
+	fmt.Printf("antes conectar banco")
 	conf := config.GetDb()
 
 	stringConnection := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -16,11 +18,15 @@ func OpenConnection() (*sql.DB, error) {
 
 	conn, err := sql.Open("postgres", stringConnection)
 
+	fmt.Printf("antes conectar banco -panic")
+
 	if err != nil {
 		panic(err)
 	}
 
 	err = conn.Ping()
+
+	fmt.Printf("antes conectar banco - depoois panic")
 
 	return conn, err
 }

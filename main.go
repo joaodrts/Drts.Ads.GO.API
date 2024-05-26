@@ -18,7 +18,7 @@ func main() {
 
 	// Configuração do middleware CORS, estava ocorrendo erro nas requests.
 	config := cors.Config{
-		AllowOrigins:     []string{"http://localhost:4200"},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		AllowCredentials: true,
@@ -32,5 +32,5 @@ func main() {
 	router.PUT("/ads/:id", controllers.Update)
 	router.DELETE("/ads/:id", controllers.Delete)
 
-	router.Run("localhost:9000")
+	router.Run("0.0.0.0:9000") // <- alterado pois com localhost não funciona
 }

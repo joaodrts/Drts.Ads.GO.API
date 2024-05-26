@@ -19,6 +19,7 @@ func Create(c *gin.Context) {
 	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
 	if err := c.BindJSON(&newAd); err != nil {
+		fmt.Printf(err.Error())
 		return
 	}
 
@@ -28,7 +29,7 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusCreated, newAd)
+	c.JSON(http.StatusCreated, newAd)
 }
 
 func Get(c *gin.Context) {
@@ -40,10 +41,11 @@ func Get(c *gin.Context) {
 	listAds, err := entities.Get("0")
 
 	if err != nil {
+		fmt.Printf(err.Error())
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, listAds)
+	c.JSON(http.StatusOK, listAds)
 }
 
 func GetById(c *gin.Context) {
@@ -61,11 +63,11 @@ func GetById(c *gin.Context) {
 	}
 
 	if listAds.ID == "0" || listAds.ID == "" {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "ad not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "ad not found"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, listAds)
+	c.JSON(http.StatusOK, listAds)
 }
 
 func Update(c *gin.Context) {
@@ -84,11 +86,11 @@ func Update(c *gin.Context) {
 
 	_, err := entities.Update(id, newAd)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "ad not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "ad not found"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, "record updated successfully.")
+	c.JSON(http.StatusOK, "record updated successfully.")
 }
 
 func Delete(c *gin.Context) {
@@ -101,9 +103,9 @@ func Delete(c *gin.Context) {
 
 	_, err := entities.Delete(id)
 	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "ad not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "ad not found"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, "record deleted successfully.")
+	c.JSON(http.StatusOK, "record deleted successfully.")
 }
